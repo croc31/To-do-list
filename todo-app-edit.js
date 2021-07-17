@@ -1,10 +1,10 @@
 // by Franklyn Roth https://codepen.io/franklynroth/pen/ZYeaBd
 let taskInput = document.getElementById("new-task");//Add a new task.
-let addButton = document.getElementsByTagName("button")[0];//first button
+let addButton = document.getElementById("new-task-button");//first button
 let incompleteTaskHolder = document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
 let completedTasksHolder = document.getElementById("completed-tasks");//completed-tasks
 
-//New task list item
+//New task list item 
 let createNewTaskElement = function(taskString) {
 
 	let listItem = document.createElement("li");
@@ -13,7 +13,8 @@ let createNewTaskElement = function(taskString) {
 	let label=document.createElement("label");//label
         label.innerText=taskString;
 	let editInput=document.createElement("input");//text
-    	editInput.type="text";
+    	editInput.type="hidden";
+		editInput.id="stringInputEditTask";
     let editButton=document.createElement("button");//edit button
 	    editButton.innerText="Editar";
 	    editButton.className="edit";	
@@ -37,25 +38,30 @@ let addTask=function() {
 	//Append listItem to incompleteTaskHolder
 	incompleteTaskHolder.appendChild(listItem);
 	bindTaskEvents(listItem, taskCompleted);
-	taskInput.value="digite aqui";
+	//taskInput.placeholder="digite aqui";
 }
 
 //Edit an existing task.
 let editTask=function() {
     let listItem=this.parentNode;
-    let editInput=listItem.querySelector('input[type=text]');
+    let editInput=listItem.querySelector('input[id=stringInputEditTask]');
     let label=listItem.querySelector("label");
     let containsClass=listItem.classList.contains("editMode");
 		//If class of the parent is .editmode
+	
 		if(containsClass){
 		//switch to .editmode
 		//label becomes the inputs value.
 			label.innerText=editInput.value;
             editInput.value="";
+			editInput.type = "hidden";
+			this.innerText = "editar";
 		}
         else {
+			editInput.type = "text";
             label.innerText="";
 			editInput.value=label.innerText;
+			this.innerText = "salvar";
 		}
 		//toggle .editmode on the parent.
 		listItem.classList.toggle("editMode");

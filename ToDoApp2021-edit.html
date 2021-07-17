@@ -2,27 +2,28 @@
 <html>
   <head>
     <title>Lista de Tarefas - Edit</title>
-     
+     <meta charset="utf8"/>
   </head>
   <body>
       <h1>Lista de Tarefas</h1>
       <p>adaptado por Jair C Leite, 2021</p>
         <div class="container">
          <p>
-          <input id="new-task" type="text" value="digite aqui"><button>+</button>
+          <input id="new-task" type="text" placeholder="digite aqui" required> 
+          <button id="new-task-button">+</button>
          </p>
       
         <h2>A fazer</h2>
         <ul id="incomplete-tasks">
         <li><input type="checkbox">
             <label>Tarefa 1</label>
-            <input type="text">
+            <input type="hidden" id="stringInputEditTask">
             <button class="edit">Editar</button>
             <button class="delete">X</button>
         </li>
         <li><input type="checkbox">
             <label>Tarefa 2</label>
-            <input type="text">
+            <input type="hidden" id="stringInputEditTask">
             <button class="edit">Editar</button>
             <button class="delete">X</button>
         </li>
@@ -33,7 +34,7 @@
       <ul id="completed-tasks">
         <li><input type="checkbox" checked>
             <label>Tarefa 2</label>
-            <input type="text">
+            <input type="hidden" id="stringInputEditTask">
             <button class="edit">Editar</button>
             <button class="delete">X</button>
         </li>
