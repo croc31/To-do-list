@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Lista de Tarefas - Edit</title>
+     
+  </head>
+  <body>
+      <h1>Lista de Tarefas</h1>
+      <p>adaptado por Jair C Leite, 2021</p>
+        <div class="container">
+         <p>
+          <input id="new-task" type="text" value="digite aqui"><button>+</button>
+         </p>
+      
+        <h2>A fazer</h2>
+        <ul id="incomplete-tasks">
+        <li><input type="checkbox">
+            <label>Tarefa 1</label>
+            <input type="text">
+            <button class="edit">Editar</button>
+            <button class="delete">X</button>
+        </li>
+        <li><input type="checkbox">
+            <label>Tarefa 2</label>
+            <input type="text">
+            <button class="edit">Editar</button>
+            <button class="delete">X</button>
+        </li>
+        
+      </ul>
+      
+      <h2>Feito</h2>
+      <ul id="completed-tasks">
+        <li><input type="checkbox" checked>
+            <label>Tarefa 2</label>
+            <input type="text">
+            <button class="edit">Editar</button>
+            <button class="delete">X</button>
+        </li>
+      </ul>
+    </div>
+
+    <script type="text/javascript" src="todo-app-edit.js"></script>
+
+  </body>
+</html>
