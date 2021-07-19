@@ -16,8 +16,10 @@ let createNewTaskElement = function(tarefa, responsavel, prazo) {
 	listItem.innerHTML = tarefa.bold();
 	let labelResponsavel=document.createElement("li");//label
 		labelResponsavel.innerText= "Responsável: "+ responsavel;
+		labelResponsavel.id = "responsavel"
 	let labelPrazo=document.createElement("li");//label
         labelPrazo.innerText="Prazo: " + prazo;
+		labelPrazo.id = "prazo"
 	let editTarefaInput=document.createElement("input");//text
     	editTarefaInput.type="hidden";
 		editTarefaInput.id="editTarefa";
@@ -63,22 +65,34 @@ let editTask=function() {
     let editTarefaInput=listItem.querySelector('input[id=editTarefa]');
 	let editResponsavelInput=listItem.querySelector('input[id=editResponsavel]');
 	let editPrazoInput=listItem.querySelector('input[id=editPrazo]');
-    let label=listItem.querySelector("ul");
+    let label=listItem.querySelector("li");
+	let ul = label.getElementById;
     let containsClass=listItem.classList.contains("editMode");
 		//If class of the parent is .editmode
 	
 		if(containsClass){
 		//switch to .editmode
 		//label becomes the inputs value.
-			label.innerText=editTarefaInput.value;
+			ul.innerHTML= editTarefaInput.value.bold();
+			ul.getElementById("responsavel").innerText = editResponsavelInput.value;
+			ul.getElementById("prazo").innerText = editResponsavelInput.value;
             editTarefaInput.value="";
 			editTarefaInput.type = "hidden";
+			editResponsavelInput.value="";
+			editResponsavelInput.type = "hidden";
+			editPrazoInput.value="";
+			editPrazoInput.type = "hidden";
+
 			this.innerText = "editar";
 		}
         else {
-			editInput.type = "text";
-            label.innerText="";
-			editInput.value=label.innerText;
+			editTarefaInput.type = "text";
+			editTarefaInput.value = ul.innerHTML.innerText;
+			editResponsavelInput.type = "text";
+			editResponsavelInput.value = ul.getElementById("responsavel").innerText;
+			editPrazoInput.type = "text";
+			editPrazoInput.value = ul.getElementById("prazo").innerText;
+
 			this.innerText = "salvar";
 		}
 		//toggle .editmode on the parent.
