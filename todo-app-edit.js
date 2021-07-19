@@ -65,17 +65,17 @@ let editTask=function() {
     let editTarefaInput=listItem.querySelector('input[id=editTarefa]');
 	let editResponsavelInput=listItem.querySelector('input[id=editResponsavel]');
 	let editPrazoInput=listItem.querySelector('input[id=editPrazo]');
-    let label=listItem.querySelector("li");
-	let ul = label.getElementById;
+    let ul=listItem.querySelector("ul"); 
+	console.log(listItem);
     let containsClass=listItem.classList.contains("editMode");
 		//If class of the parent is .editmode
 	
 		if(containsClass){
 		//switch to .editmode
 		//label becomes the inputs value.
-			ul.innerHTML= editTarefaInput.value.bold();
-			ul.getElementById("responsavel").innerText = editResponsavelInput.value;
-			ul.getElementById("prazo").innerText = editResponsavelInput.value;
+		    listItem.querySelector("b").innerHTML = editTarefaInput.value;
+			ul.querySelector("li#responsavel").innerHTML = editResponsavelInput.value;
+			ul.querySelector("li#prazo").innerHTML = editPrazoInput.value;
             editTarefaInput.value="";
 			editTarefaInput.type = "hidden";
 			editResponsavelInput.value="";
@@ -87,11 +87,11 @@ let editTask=function() {
 		}
         else {
 			editTarefaInput.type = "text";
-			editTarefaInput.value = ul.innerHTML.innerText;
+			editTarefaInput.value = listItem.querySelector("b").innerHTML;
 			editResponsavelInput.type = "text";
-			editResponsavelInput.value = ul.getElementById("responsavel").innerText;
+			editResponsavelInput.value = ul.querySelector("li#responsavel").innerHTML.replace("Responsável: ", "");
 			editPrazoInput.type = "text";
-			editPrazoInput.value = ul.getElementById("prazo").innerText;
+			editPrazoInput.value = ul.querySelector("li#prazo").innerHTML.replace("Prazo: ", "");
 
 			this.innerText = "salvar";
 		}
