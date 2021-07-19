@@ -6,38 +6,30 @@
   </head>
   <body>
       <h1>Lista de Tarefas</h1>
-      <p>adaptado por Jair C Leite, 2021</p>
+      <p>Clauber Camara</p>
+      <p>Guilherme Egle</p>
         <div class="container">
          <p>
-          <input id="new-task" type="text" placeholder="digite aqui" required> 
-          <button id="new-task-button">+</button>
+           Tarefa:
+         <input id="tarefa" type="text" placeholder="Ex: Colocar Lixo para fora" required> 
          </p>
-      
+         <p>
+          Responsável:
+         <input id="responsavel" type="text" placeholder="Ex: Fulano Cicrano" required> 
+        </p>
+        <p>
+          Prazo:
+         <input id="prazo" type="text" placeholder="Ex: Amanhã meio dia" required> 
+        </p>
+        <button id="adicionar">Adicionar</button>
         <h2>A fazer</h2>
-        <ul id="incomplete-tasks">
-        <li><input type="checkbox">
-            <label>Tarefa 1</label>
-            <input type="hidden" id="stringInputEditTask">
-            <button class="edit">Editar</button>
-            <button class="delete">X</button>
-        </li>
-        <li><input type="checkbox">
-            <label>Tarefa 2</label>
-            <input type="hidden" id="stringInputEditTask">
-            <button class="edit">Editar</button>
-            <button class="delete">X</button>
-        </li>
+        <ul id="incompletas">
         
-      </ul>
+        </ul>
       
       <h2>Feito</h2>
-      <ul id="completed-tasks">
-        <li><input type="checkbox" checked>
-            <label>Tarefa 2</label>
-            <input type="hidden" id="stringInputEditTask">
-            <button class="edit">Editar</button>
-            <button class="delete">X</button>
-        </li>
+      <ul id="completas">
+
       </ul>
     </div>
 

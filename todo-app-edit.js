@@ -1,20 +1,32 @@
 // by Franklyn Roth https://codepen.io/franklynroth/pen/ZYeaBd
-let taskInput = document.getElementById("new-task");//Add a new task.
-let addButton = document.getElementById("new-task-button");//first button
-let incompleteTaskHolder = document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
-let completedTasksHolder = document.getElementById("completed-tasks");//completed-tasks
+let tarefaInput = document.getElementById("tarefa");//Add a new task.
+let prazoInput = document.getElementById("prazo");
+let responsavelInput = document.getElementById("responsavel");
+let addButton = document.getElementById("adicionar");//first button
+let incompleteTaskHolder = document.getElementById("incompletas");//ul of #incomplete-tasks
+let completedTasksHolder = document.getElementById("completas");//completed-tasks
 
 //New task list item 
-let createNewTaskElement = function(taskString) {
+let createNewTaskElement = function(tarefa, responsavel, prazo) {
 
 	let listItem = document.createElement("li");
 	let checkBox=document.createElement("input");//checkbx
     	checkBox.type="checkbox";
-	let label=document.createElement("label");//label
-        label.innerText=taskString;
-	let editInput=document.createElement("input");//text
-    	editInput.type="hidden";
-		editInput.id="stringInputEditTask";
+	let data = document.createElement("ul");
+	listItem.innerHTML = tarefa.bold();
+	let labelResponsavel=document.createElement("li");//label
+		labelResponsavel.innerText= "Responsável: "+ responsavel;
+	let labelPrazo=document.createElement("li");//label
+        labelPrazo.innerText="Prazo: " + prazo;
+	let editTarefaInput=document.createElement("input");//text
+    	editTarefaInput.type="hidden";
+		editTarefaInput.id="editTarefa";
+	let editResponsavelInput=document.createElement("input");//text
+    	editResponsavelInput.type="hidden";
+		editResponsavelInput.id="editResponsavel";
+	let editPrazoInput=document.createElement("input");//text
+    	editPrazoInput.type="hidden";
+		editPrazoInput.id="editPrazo";
     let editButton=document.createElement("button");//edit button
 	    editButton.innerText="Editar";
 	    editButton.className="edit";	
@@ -23,9 +35,13 @@ let createNewTaskElement = function(taskString) {
 	    deleteButton.className="delete";
 
 	//and appending.
+	data.appendChild(labelResponsavel);
+	data.appendChild(labelPrazo)
 	listItem.appendChild(checkBox);
-	listItem.appendChild(label);
-	listItem.appendChild(editInput);
+	listItem.appendChild(data);
+	listItem.appendChild(editTarefaInput);
+	listItem.appendChild(editResponsavelInput);
+	listItem.appendChild(editPrazoInput);
 	listItem.appendChild(editButton);
 	listItem.appendChild(deleteButton);
 	return listItem;
@@ -34,7 +50,7 @@ let createNewTaskElement = function(taskString) {
 let addTask=function() {
 	console.log("Add Task...");
 	//Create a new list item with the text from the #new-task:
-	let listItem=createNewTaskElement(taskInput.value);
+	let listItem=createNewTaskElement(tarefaInput.value, responsavelInput.value, prazoInput.value);
 	//Append listItem to incompleteTaskHolder
 	incompleteTaskHolder.appendChild(listItem);
 	bindTaskEvents(listItem, taskCompleted);
@@ -44,17 +60,19 @@ let addTask=function() {
 //Edit an existing task.
 let editTask=function() {
     let listItem=this.parentNode;
-    let editInput=listItem.querySelector('input[id=stringInputEditTask]');
-    let label=listItem.querySelector("label");
+    let editTarefaInput=listItem.querySelector('input[id=editTarefa]');
+	let editResponsavelInput=listItem.querySelector('input[id=editResponsavel]');
+	let editPrazoInput=listItem.querySelector('input[id=editPrazo]');
+    let label=listItem.querySelector("ul");
     let containsClass=listItem.classList.contains("editMode");
 		//If class of the parent is .editmode
 	
 		if(containsClass){
 		//switch to .editmode
 		//label becomes the inputs value.
-			label.innerText=editInput.value;
-            editInput.value="";
-			editInput.type = "hidden";
+			label.innerText=editTarefaInput.value;
+            editTarefaInput.value="";
+			editTarefaInput.type = "hidden";
 			this.innerText = "editar";
 		}
         else {
