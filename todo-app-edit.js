@@ -83,7 +83,7 @@ let editTask=function() {
 			editPrazoInput.value="";
 			editPrazoInput.type = "hidden";
 
-			this.innerText = "editar";
+			this.innerText = "Editar";
 		}
         else {
 			editTarefaInput.type = "text";
@@ -93,7 +93,7 @@ let editTask=function() {
 			editPrazoInput.type = "text";
 			editPrazoInput.value = ul.querySelector("li#prazo").innerHTML.replace("Prazo: ", "");
 
-			this.innerText = "salvar";
+			this.innerText = "Salvar";
 		}
 		//toggle .editmode on the parent.
 		listItem.classList.toggle("editMode");
