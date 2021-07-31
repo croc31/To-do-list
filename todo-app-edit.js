@@ -35,7 +35,7 @@ let createNewTaskElement = function(tarefa, responsavel, prazo) {
 	let deleteButton=document.createElement("button");//delete button
 	    deleteButton.innerText="X";
 	    deleteButton.className="delete";
-
+	deadLine(prazo);
 	//and appending.
 	data.appendChild(labelResponsavel);
 	data.appendChild(labelPrazo)
@@ -90,7 +90,7 @@ let editTask=function() {
 			editTarefaInput.value = listItem.querySelector("b").innerHTML;
 			editResponsavelInput.type = "text";
 			editResponsavelInput.value = ul.querySelector("li#responsavel").innerHTML.replace("Responsável: ", "");
-			editPrazoInput.type = "text";
+			editPrazoInput.type = "date";
 			editPrazoInput.value = ul.querySelector("li#prazo").innerHTML.replace("Prazo: ", "");
 
 			this.innerText = "Salvar";
@@ -118,6 +118,20 @@ let taskIncomplete=function(){
     let listItem=this.parentNode;
 	incompleteTaskHolder.appendChild(listItem);
     bindTaskEvents(listItem,taskCompleted);
+}
+//identifies if the task is near deadline
+let deadLine=function(taskDate){
+ let currentDate = new Date();
+ let auxiliarDate = taskDate;
+ try{
+ 	if(currentDate.getYear() < (auxiliarDate[0] + auxiliarDate[1] + auxiliarDate[2] + auxiliarDate[3])){
+		console.log("o primeiro numero é do tipo ",	typeof(currentDate.getYear()), "o segundo numero é do tipo ", typeof(auxiliarDate[0] + auxiliarDate[1] + auxiliarDate[2] + auxiliarDate[3]));
+	}else{
+		console.log(currentDate.getYear());
+	}
+ }catch(err){
+	console.log(err);
+ }
 }
 
 let bindTaskEvents=function(taskListItem,taskstatus){
