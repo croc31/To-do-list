@@ -1,0 +1,16 @@
+services:
+    server:
+        image: todo-server 
+        build: .
+        ports: 
+            - "80:80"
+        networks:
+            todonet:
+                ipv4_address: "172.10.0.2"
+
+networks:
+    todonet:
+        ipam:
+            driver: default
+            config:
+              - subnet: 172.10.0.0/16
