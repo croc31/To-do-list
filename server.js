@@ -36,7 +36,7 @@ const fs = require('fs');
 const express = require('express')
 const path = require('path')
 const app = express()
-const port = 80
+const port = 3000
 
 app.get('/', (request, response) => {
     response.sendFile(path.join(__dirname, 'ToDoApp2021-edit.html'));
@@ -51,7 +51,7 @@ app.get('/todo-app-edit.js', function(request, response){
 })
 
 app.get('/tarefas.json', function(request, response){
-    fs.open('tarefas.json', 'w+', function(err) {
+    fs.appendFile('tarefas.json', '', function(err) {
         if (err) return console.log(err);
     });
     response.sendFile(path.join(__dirname, 'tarefas.json'));
