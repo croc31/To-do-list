@@ -45,6 +45,10 @@ app.get('/todo', function(request, response){
     response.sendFile(path.join(__dirname, 'ToDoApp2021-edit.html'));
 })
 
+app.get('/todo-app-edit.js', function(request, response){
+    response.sendFile(path.join(__dirname, 'todo-app-edit.js'));
+})
+
 app.listen(port, () => {
   console.log(`Servidor: http://localhost:${port}`)
 })
