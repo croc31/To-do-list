@@ -32,6 +32,7 @@ http.createServer( function (request, response) {
 console.log('Servidor rodando em localhost:8081/...');
 */
 
+const fs = require('fs');
 const express = require('express')
 const path = require('path')
 const app = express()
@@ -47,6 +48,20 @@ app.get('/todo', function(request, response){
 
 app.get('/todo-app-edit.js', function(request, response){
     response.sendFile(path.join(__dirname, 'todo-app-edit.js'));
+})
+
+app.get('/tarefas.json', function(request, response){
+    fs.open('tarefas.json', 'w+', function(err) {
+        if (err) return console.log(err);
+    });
+    response.sendFile(path.join(__dirname, 'tarefas.json'));
+})
+
+app.post('/tarefas.json', function(request, response) {
+    fs.appendFile('tarefas.json', request.body, function(err) {
+        if (err) return console.log(err);
+    })
+    
 })
 
 app.listen(port, () => {
