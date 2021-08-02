@@ -72,7 +72,7 @@ app.post('/tarefas.json', function(request, response) {
     fs.appendFile('tarefas.json', request.body, function(err) {
         if (err) return console.log(err);
     })
-    
+    console.log(request.toString())
 })
 
 app.listen(port, () => {
