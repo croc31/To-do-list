@@ -61,6 +61,18 @@ app.get('/tarefas.json', function(request, response){
         response.send(data.toString());
     });
 })
+
+app.get('/completas.json', function(request, response){
+    fs.appendFile('completas.json', '', function(err) {
+        if (err) return console.log(err);
+    });
+    fs.readFile('completas.json', 'utf8', function (err,data) {
+        if (err) {
+          return console.log(err);
+        }
+        response.send(data.toString());
+    });
+})
 // app.get('/tarefas.json', function(request, response){
 //     fs.appendFile('tarefas.json', '', function(err) {
 //         if (err) return console.log(err);
@@ -69,12 +81,15 @@ app.get('/tarefas.json', function(request, response){
 // })
 
 app.post('/tarefas.json', function(request, response) {
-    fs.appendFile('tarefas.json', request.body, function(err) {
+
+    console.log(response);
+    fs.appendFile('tarefas.json', "aa", function(err) {
         if (err) return console.log(err);
-    })
-    console.log(request.toString())
+    });
+    
+    console.log(request.toString());
 })
 
 app.listen(port, () => {
-  console.log(`Servidor: http://localhost:${port}`)
+  console.log(`Servidor: http://localhost:${port}`);
 })
