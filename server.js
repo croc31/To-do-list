@@ -54,8 +54,19 @@ app.get('/tarefas.json', function(request, response){
     fs.appendFile('tarefas.json', '', function(err) {
         if (err) return console.log(err);
     });
-    response.sendFile(path.join(__dirname, 'tarefas.json'));
+    fs.readFile('tarefas.json', 'utf8', function (err,data) {
+        if (err) {
+          return console.log(err);
+        }
+        response.send(data.toString());
+    });
 })
+// app.get('/tarefas.json', function(request, response){
+//     fs.appendFile('tarefas.json', '', function(err) {
+//         if (err) return console.log(err);
+//     });
+//     response.sendFile(path.join(__dirname, 'tarefas.json'));
+// })
 
 app.post('/tarefas.json', function(request, response) {
     fs.appendFile('tarefas.json', request.body, function(err) {

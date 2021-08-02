@@ -9,6 +9,7 @@ let taskRequest = new XMLHttpRequest();
 taskRequest.open('GET', 'http://localhost:3000/tarefas.json');
 taskRequest.send();
 console.log(JSON.parse(taskRequest.responseText));
+
 //New task list item 
 let createNewTaskElement = function(tarefa, responsavel, prazo) {
 
