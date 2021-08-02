@@ -3,7 +3,7 @@ services:
         image: todo-server 
         build: .
         ports: 
-            - "80:80"
+            - "3000:3000"
         networks:
             todonet:
                 ipv4_address: "172.10.0.2"

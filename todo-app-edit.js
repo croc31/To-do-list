@@ -5,10 +5,7 @@ let responsavelInput = document.getElementById("responsavel");
 let addButton = document.getElementById("adicionar");//first button
 let incompleteTaskHolder = document.getElementById("incompletas");//ul of #incomplete-tasks
 let completedTasksHolder = document.getElementById("completas");//completed-tasks
-let taskRequest = new XMLHttpRequest();
-taskRequest.open('GET', 'http://localhost:3000/tarefas.json');
-taskRequest.send();
-console.log(JSON.parse(taskRequest.responseText));
+//typeof(taskRequest.responseText);
 
 //New task list item 
 let createNewTaskElement = function(tarefa, responsavel, prazo) {
@@ -152,6 +149,30 @@ let bindTaskEvents=function(taskListItem,taskstatus){
 	checkBox.onchange=taskstatus;
 }
 
+let serialize=function(listItem){
+    let ul=listItem.querySelector("ul");
+	jsontxt = {tarefa: listItem.querySelector("b").innerHTML,
+	        responsavel: ul.querySelector("li#responsavel").innerHTML.replace("Responsável: ", ""),
+		    prazo: ul.querySelector("li#prazo").innerHTML.replace("Prazo: ", "")}
+    return JSON.stringify(jsontxt);
+}
+
+let getTarefas=function() {
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('GET', 'http://localhost:3000/tarefas.json');
+	taskRequest.send();
+	taskRequest.onload=function() {
+		console.log(taskRequest.responseText);
+		lista = JSON.parse(taskRequest.responseText);
+		for (var i=0; i<lista.length; ++i) {
+			console.log(lista[i]);
+			newLI = createNewTaskElement(lista[i]['tarefa'], lista[i]['responsavel'], lista[i]['data']);
+			incompleteTaskHolder.appendChild(newLI);
+			bindTaskEvents(newLI, taskCompleted);
+		}
+	};	
+}
+
 //addButton.onclick=addTask;
 addButton.addEventListener("click",addTask);
 //cycle over incompleteTaskHolder ul list items
@@ -165,3 +186,4 @@ for (let i=0; i<completedTasksHolder.children.length;i++){
     bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
 }
 
+getTarefas();
