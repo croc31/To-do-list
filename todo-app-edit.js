@@ -1,5 +1,4 @@
 //const { debug } = require("console");
-
 // by Franklyn Roth https://codepen.io/franklynroth/pen/ZYeaBd
 let tarefaInput = document.getElementById("tarefa");//Add a new task.
 let prazoInput = document.getElementById("prazo");
@@ -178,30 +177,6 @@ let getTarefas=function() {
 	};	
 }
 
-let postTask=function(JSONlistItem){
-	let taskRequest = new XMLHttpRequest(), JSONlistComplete = "";
-	taskRequest.open('GET', 'http://localhost:3000/tarefas.json');
-	taskRequest.send();
-	taskRequest.onload=function() {
-		//console.log(taskRequest.responseText);
-		lista = taskRequest.responseText;
-		lista = lista.substring(0, lista.length-2);
-		lista += ",\n";
-		lista += lista;
-		lista += "] \n";
-		//JSONlistComplete = JSON.parse(lista);
-		JSONlistComplete = lista;
-	};	
-	taskRequest = new XMLHttpRequest();
-	taskRequest.submittedData = JSONlistComplete;
-	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
-	//taskRequest.setRequestHeader('string', 'tarefas.json');
-	//console.log(typeof(JSONlistComplete));
-	//console.log(taskRequest);
-	taskRequest.send();
-		
-
-}
 //Request the completed tasks saved on the server
 let getCompletedTarefas=function() {
 	let taskRequest = new XMLHttpRequest();
@@ -218,6 +193,35 @@ let getCompletedTarefas=function() {
 			bindTaskEvents(newLI, taskIncomplete);
 		}
 	};	
+}
+
+let postTask=function(JSONlistItem){
+	/*
+	let taskRequest = new XMLHttpRequest(), JSONlistComplete = "";
+	taskRequest.open('GET', 'http://localhost:3000/tarefas.json');
+	taskRequest.send();
+	taskRequest.onload=function() {
+		//console.log(taskRequest.responseText);
+		lista = taskRequest.responseText;
+		lista = lista.substring(0, lista.length-2);
+		lista += ",\n";
+		lista += lista;
+		lista += "] \n";
+		//JSONlistComplete = JSON.parse(lista);
+		JSONlistComplete = lista;
+	};	*/
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
 }
 
 //addButton.onclick=addTask;

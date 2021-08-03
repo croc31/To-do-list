@@ -79,15 +79,15 @@ app.get('/completas.json', function(request, response){
 //     });
 //     response.sendFile(path.join(__dirname, 'tarefas.json'));
 // })
+app.use(express.json());
 
 app.post('/tarefas.json', function(request, response) {
 
-    console.log(response);
     fs.appendFile('tarefas.json', "aa", function(err) {
         if (err) return console.log(err);
     });
     
-    console.log(request.toString());
+    console.log(request.body);
 })
 
 app.listen(port, () => {
