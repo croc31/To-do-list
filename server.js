@@ -83,11 +83,30 @@ app.use(express.json());
 
 app.post('/tarefas.json', function(request, response) {
 
-    fs.appendFile('tarefas.json', "aa", function(err) {
-        if (err) return console.log(err);
+    // fs.appendFile('tarefas.json', JSON.stringify(request.body), function(err) {
+    //     if (err) return console.log(err);
+    //    // localStorage.setItem('tarefas.json', request.body);
+        
+    // });
+    //let wstream = fs.WriteStream('tarefas.json');
+    let file = "";
+    fs.readFile('tarefas.json', 'utf8', function (err,data) {
+        file = (data.toString()); 
+        file = file.substring(0, file.length-2);
+        file += ",\n";
+        file += JSON.stringify(request.body);
+		file += "]\n";
+        //console.log(file, "alo");
+        //wstream.write(file);
+        let wstream = fs.WriteStream('tarefas.json');
+        wstream.write(file);
+        //fs.writeFile('tarefas.json', file);
+        if (err) {
+          return console.log(err);
+        }
     });
-    
-    console.log(request.body);
+    console.log(file, "alo");
+    //console.log(request.body);
 })
 
 app.listen(port, () => {

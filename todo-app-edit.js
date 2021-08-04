@@ -196,24 +196,11 @@ let getCompletedTarefas=function() {
 }
 
 let postTask=function(JSONlistItem){
-	/*
-	let taskRequest = new XMLHttpRequest(), JSONlistComplete = "";
-	taskRequest.open('GET', 'http://localhost:3000/tarefas.json');
-	taskRequest.send();
-	taskRequest.onload=function() {
-		//console.log(taskRequest.responseText);
-		lista = taskRequest.responseText;
-		lista = lista.substring(0, lista.length-2);
-		lista += ",\n";
-		lista += lista;
-		lista += "] \n";
-		//JSONlistComplete = JSON.parse(lista);
-		JSONlistComplete = lista;
-	};	*/
+	
 	let taskRequest = new XMLHttpRequest();
 	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
-	console.log(JSONlistItem);
+	//console.log(JSONlistItem);
 	//console.log(taskRequest);
 	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	taskRequest.send(JSONlistItem);
