@@ -58,7 +58,7 @@ let addTask=function() {
 	let listItem = createNewTaskElement(tarefaInput.value, responsavelInput.value, prazoInput.value);
 	let JSONlistItem = serialize(listItem);
 	//Append listItem to incompleteTaskHolder
-	postTask(JSONlistItem);
+	postTarefas(JSONlistItem);
 	incompleteTaskHolder.appendChild(listItem);
 	bindTaskEvents(listItem, taskCompleted);
 	//taskInput.placeholder="digite aqui";
@@ -115,6 +115,8 @@ let taskCompleted=function(){
 	//Append the task list item to the #completed-tasks
 	let listItem=this.parentNode;
 	completedTasksHolder.appendChild(listItem);
+	let JSONlistItem = serialize(listItem);
+	postCompletar(JSONlistItem);
     bindTaskEvents(listItem, taskIncomplete);
 }
 let taskIncomplete=function(){
@@ -122,6 +124,8 @@ let taskIncomplete=function(){
     //Append the task list item to the #incomplete-tasks.
     let listItem=this.parentNode;
 	incompleteTaskHolder.appendChild(listItem);
+	let JSONlistItem = serialize(listItem);
+	postDescompletar(JSONlistItem);
     bindTaskEvents(listItem,taskCompleted);
 }
 //identifies if the task is near deadline
@@ -195,10 +199,56 @@ let getCompletedTarefas=function() {
 	};	
 }
 
-let postTask=function(JSONlistItem){
+let postTarefas=function(JSONlistItem){
 	
 	let taskRequest = new XMLHttpRequest();
 	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let postTarefasCompletas=function(JSONlistItem){
+	
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let postCompletar=function(JSONlistItem){
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('POST', 'http://localhost:3000/completar');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let postDescompletar=function(JSONlistItem){
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('POST', 'http://localhost:3000/descompletar');
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
