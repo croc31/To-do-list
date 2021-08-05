@@ -67,6 +67,14 @@ let addTask=function() {
 //Edit an existing task.
 let editTask=function() {
     let listItem=this.parentNode;
+	let JSONlistItem = serialize(listItem);
+	/*let ulp = listItem.parentNode;
+	if (ulp === completedTasksHolder) {
+		deleteCompleta(JSONlistItem);
+	}
+	else if (ulp === incompleteTaskHolder){
+		deleteIncompleta(JSONlistItem);
+	}*/
     let editTarefaInput=listItem.querySelector('input[id=editTarefa]');
 	let editResponsavelInput=listItem.querySelector('input[id=editResponsavel]');
 	let editPrazoInput=listItem.querySelector('input[id=editPrazo]');
@@ -102,11 +110,28 @@ let editTask=function() {
 		}
 		//toggle .editmode on the parent.
 		listItem.classList.toggle("editMode");
+		/*
+		JSONlistItem = serialize(listItem);
+		if (ulp === completedTasksHolder) {
+			postTarefasCompletas(JSONlistItem);
+		}
+		else if (ulp === incompleteTaskHolder){
+			postTarefas(JSONlistItem);
+		}*/
+		
+
 }
 //Delete task.
 let deleteTask=function(){
 		let listItem=this.parentNode;
 		let ul=listItem.parentNode;
+		let JSONlistItem = serialize(listItem);
+		if (ul === completedTasksHolder) {
+			deleteCompleta(JSONlistItem);
+		}
+		else if (ul === incompleteTaskHolder){
+			deleteIncompleta(JSONlistItem);
+		}
 		//Remove the parent list item from the ul.
 		ul.removeChild(listItem);
 }
@@ -174,7 +199,7 @@ let getTarefas=function() {
 		lista = JSON.parse(taskRequest.responseText);
 		for (var i=0; i<lista.length; ++i) {
 			//console.log(lista[i]);
-			newLI = createNewTaskElement(lista[i]['tarefa'], lista[i]['responsavel'], lista[i]['data']);
+			newLI = createNewTaskElement(lista[i]['tarefa'], lista[i]['responsavel'], lista[i]['prazo']);
 			incompleteTaskHolder.appendChild(newLI);
 			bindTaskEvents(newLI, taskCompleted);
 		}
@@ -191,7 +216,7 @@ let getCompletedTarefas=function() {
 		lista = JSON.parse(taskRequest.responseText);
 		for (var i=0; i<lista.length; ++i) {
 			//console.log(lista[i]);
-			newLI = createNewTaskElement(lista[i]['tarefa'], lista[i]['responsavel'], lista[i]['data']);
+			newLI = createNewTaskElement(lista[i]['tarefa'], lista[i]['responsavel'], lista[i]['prazo']);
 			newLI.querySelector("input[type=checkbox]").checked = "true";
 			completedTasksHolder.appendChild(newLI);
 			bindTaskEvents(newLI, taskIncomplete);
@@ -218,7 +243,7 @@ let postTarefas=function(JSONlistItem){
 let postTarefasCompletas=function(JSONlistItem){
 	
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
+	taskRequest.open('POST', 'http://localhost:3000/completas.json');
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
@@ -249,6 +274,36 @@ let postCompletar=function(JSONlistItem){
 let postDescompletar=function(JSONlistItem){
 	let taskRequest = new XMLHttpRequest();
 	taskRequest.open('POST', 'http://localhost:3000/descompletar');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let deleteIncompleta=function(JSONlistItem){
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('DELETE', 'http://localhost:3000/delete-incompleta');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let deleteCompleta=function(JSONlistItem){
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('DELETE', 'http://localhost:3000/delete-completa');
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
