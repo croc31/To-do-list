@@ -1,5 +1,7 @@
 //const { debug } = require("console");
 // by Franklyn Roth https://codepen.io/franklynroth/pen/ZYeaBd
+const host = "todolist.ufrn.br";
+const port = 80;
 let tarefaInput = document.getElementById("tarefa");//Add a new task.
 let prazoInput = document.getElementById("prazo");
 let responsavelInput = document.getElementById("responsavel");
@@ -187,7 +189,7 @@ let serialize=function(listItem){
 //Request the incomplete tasks saved on the server
 let getTarefas=function() {
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('GET', 'http://localhost:3000/tarefas.json');
+	taskRequest.open('GET', `http://${host}:${port}/tarefas.json`);
 	taskRequest.send();
 	taskRequest.onload=function() {
 		//console.log(taskRequest.responseText);
@@ -204,7 +206,7 @@ let getTarefas=function() {
 //Request the completed tasks saved on the server
 let getCompletedTarefas=function() {
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('GET', 'http://localhost:3000/completas.json');
+	taskRequest.open('GET', `http://${host}:${port}/completas.json`);
 	taskRequest.send();
 	taskRequest.onload=function() {
 		//console.log(taskRequest.responseText);
@@ -222,7 +224,7 @@ let getCompletedTarefas=function() {
 let postTarefas=function(JSONlistItem){
 	
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
+	taskRequest.open('POST', `http://${host}:${port}/tarefas.json`);
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
@@ -238,7 +240,7 @@ let postTarefas=function(JSONlistItem){
 let postTarefasCompletas=function(JSONlistItem){
 	
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('POST', 'http://localhost:3000/completas.json');
+	taskRequest.open('POST', `http://${host}:${port}/completas.json`);
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
@@ -253,7 +255,7 @@ let postTarefasCompletas=function(JSONlistItem){
 
 let postCompletar=function(JSONlistItem){
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('POST', 'http://localhost:3000/completar');
+	taskRequest.open('POST', `http://${host}:${port}/completar`);
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
@@ -268,7 +270,7 @@ let postCompletar=function(JSONlistItem){
 
 let postDescompletar=function(JSONlistItem){
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('POST', 'http://localhost:3000/descompletar');
+	taskRequest.open('POST', `http://${host}:${port}/descompletar`);
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
@@ -283,7 +285,7 @@ let postDescompletar=function(JSONlistItem){
 
 let deleteIncompleta=function(JSONlistItem){
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('DELETE', 'http://localhost:3000/delete-incompleta');
+	taskRequest.open('DELETE', `http://${host}:${port}/delete-incompleta`);
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
@@ -298,7 +300,7 @@ let deleteIncompleta=function(JSONlistItem){
 
 let deleteCompleta=function(JSONlistItem){
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('DELETE', 'http://localhost:3000/delete-completa');
+	taskRequest.open('DELETE', `http://${host}:${port}/delete-completa`);
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
@@ -313,7 +315,7 @@ let deleteCompleta=function(JSONlistItem){
 
 let patchTarefa=function(JSONlistItem){
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('PATCH', 'http://localhost:3000/patch-incompleta');
+	taskRequest.open('PATCH', `http://${host}:${port}/patch-incompleta`);
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
@@ -328,7 +330,7 @@ let patchTarefa=function(JSONlistItem){
 
 let patchTarefaCompleta=function(JSONlistItem){
 	let taskRequest = new XMLHttpRequest();
-	taskRequest.open('PATCH', 'http://localhost:3000/patch-completa');
+	taskRequest.open('PATCH', `http://${host}:${port}/patch-completa`);
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);
