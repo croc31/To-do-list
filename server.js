@@ -51,10 +51,44 @@ app.get('/todo-app-edit.js', function(request, response){
 })
 
 app.get('/tarefas.json', function(request, response){
-    fs.appendFile('tarefas.json', '', function(err) {
-        if (err) return console.log(err);
-    });
+    try {
+        if (fs.existsSync('tarefas.json')) {
+          //file exists
+          if(fs.readFileSync('tarefas.json').length === 0){
+            fs.appendFileSync('tarefas.json', '[]');
+          }
+        }
+    } 
+    catch(err) {
+        console.log(err);
+        fs.appendFile('tarefas.json', '[]', function(err) {
+            if (err) return console.log(err);
+        });
+    }
+
     fs.readFile('tarefas.json', 'utf8', function (err,data) {
+        if (err) {
+          return console.log(err);
+        }
+        response.send(data.toString());
+    });
+})
+
+app.get('/completas.json', function(request, response){
+    try {
+        if (fs.existsSync('completas.json')) {
+          //file exists
+          if(fs.readFileSync('completas.json').length === 0){
+            fs.appendFileSync('completas.json', '[]');
+          }
+        }
+    } 
+    catch(err) {
+        fs.appendFile('completas.json', '[]', function(err) {
+            if (err) return console.log(err);
+        });
+    }
+    fs.readFile('completas.json', 'utf8', function (err,data) {
         if (err) {
           return console.log(err);
         }
@@ -67,14 +101,78 @@ app.get('/tarefas.json', function(request, response){
 //     });
 //     response.sendFile(path.join(__dirname, 'tarefas.json'));
 // })
+app.use(express.json());
 
 app.post('/tarefas.json', function(request, response) {
-    fs.appendFile('tarefas.json', request.body, function(err) {
-        if (err) return console.log(err);
-    })
-    console.log(request.toString())
+
+    // fs.appendFile('tarefas.json', JSON.stringify(request.body), function(err) {
+    //     if (err) return console.log(err);
+    //    // localStorage.setItem('tarefas.json', request.body);
+        
+    // });
+    //let wstream = fs.WriteStream('tarefas.json');
+    let incompletas = JSON.parse(fs.readFileSync('tarefas.json', 'utf8'));
+    incompletas.push(request.body);
+    fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
+    console.log(request.body);
 })
 
+app.post('/completas.json', function(request, response) {
+
+    // fs.appendFile('tarefas.json', JSON.stringify(request.body), function(err) {
+    //     if (err) return console.log(err);
+    //    // localStorage.setItem('tarefas.json', request.body);
+        
+    // });
+    //let wstream = fs.WriteStream('tarefas.json');
+    let completas = JSON.parse(fs.readFileSync('completas.json', 'utf8'));
+    completas.push(request.body);
+    fs.writeFileSync('completas.json', JSON.stringify(completas));
+    console.log(request.body);
+})
+
+app.post('/completar', function(request, response) {
+    let incompletas = JSON.parse(fs.readFileSync('tarefas.json', 'utf8'));
+    let completas = JSON.parse(fs.readFileSync('completas.json', 'utf8'));
+    let index = incompletas.findIndex(function(item){
+        return item === request.body
+    });
+    incompletas.splice(index, 1);
+    completas.push(request.body);
+    fs.writeFileSync('completas.json', JSON.stringify(completas));
+    fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
+})
+
+app.post('/descompletar', function(request, response) {
+    let incompletas = JSON.parse(fs.readFileSync('tarefas.json', 'utf8'));
+    let completas = JSON.parse(fs.readFileSync('completas.json', 'utf8'));
+    let index = completas.findIndex(function(item){
+        //console.log(item);
+        //console.log("------------------------------")
+        //console.log(request.body);
+        return item === request.body
+    });
+    console.log()
+    completas.splice(index, 1);
+    incompletas.push(request.body);
+    fs.writeFileSync('completas.json', JSON.stringify(completas));
+    fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
+})
+/*
+app.delete('/deletar', function(request, response) {
+    let data=fs.readFileSync('tarefas.json', 'utf8');
+    let incompletas = JSON.parse(data);
+    data = fs.readFileSync('completas.json', 'utf8');
+    let completas = JSON.parse(data);
+    let index = completas.findIndex(function(item){
+        return item === request.body
+    });
+    completas.splice(index, 1);
+    incompletas.push(request.body);
+    fs.writeFileSync('completas.json', JSON.stringify(completas));
+    fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
+})*/
+
 app.listen(port, () => {
-  console.log(`Servidor: http://localhost:${port}`)
+  console.log(`Servidor: http://localhost:${port}`);
 })

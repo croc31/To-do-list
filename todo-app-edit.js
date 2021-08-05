@@ -1,3 +1,4 @@
+//const { debug } = require("console");
 // by Franklyn Roth https://codepen.io/franklynroth/pen/ZYeaBd
 let tarefaInput = document.getElementById("tarefa");//Add a new task.
 let prazoInput = document.getElementById("prazo");
@@ -13,6 +14,7 @@ let createNewTaskElement = function(tarefa, responsavel, prazo) {
 	let listItem = document.createElement("li");
 	let checkBox=document.createElement("input");//checkbx
     	checkBox.type="checkbox";
+		checkBox.id="taskCheckbox";
 	let data = document.createElement("ul");
 	listItem.innerHTML = tarefa.bold();
 	let labelResponsavel=document.createElement("li");//label
@@ -53,8 +55,10 @@ let createNewTaskElement = function(tarefa, responsavel, prazo) {
 let addTask=function() {
 	console.log("Add Task...");
 	//Create a new list item with the text from the #new-task:
-	let listItem=createNewTaskElement(tarefaInput.value, responsavelInput.value, prazoInput.value);
+	let listItem = createNewTaskElement(tarefaInput.value, responsavelInput.value, prazoInput.value);
+	let JSONlistItem = serialize(listItem);
 	//Append listItem to incompleteTaskHolder
+	postTarefas(JSONlistItem);
 	incompleteTaskHolder.appendChild(listItem);
 	bindTaskEvents(listItem, taskCompleted);
 	//taskInput.placeholder="digite aqui";
@@ -111,6 +115,8 @@ let taskCompleted=function(){
 	//Append the task list item to the #completed-tasks
 	let listItem=this.parentNode;
 	completedTasksHolder.appendChild(listItem);
+	let JSONlistItem = serialize(listItem);
+	postCompletar(JSONlistItem);
     bindTaskEvents(listItem, taskIncomplete);
 }
 let taskIncomplete=function(){
@@ -118,6 +124,8 @@ let taskIncomplete=function(){
     //Append the task list item to the #incomplete-tasks.
     let listItem=this.parentNode;
 	incompleteTaskHolder.appendChild(listItem);
+	let JSONlistItem = serialize(listItem);
+	postDescompletar(JSONlistItem);
     bindTaskEvents(listItem,taskCompleted);
 }
 //identifies if the task is near deadline
@@ -126,17 +134,17 @@ let deadLine=function(taskDate){
  let auxiliarDate = taskDate;
  try{
  	if(currentDate.getYear() < (auxiliarDate[0] + auxiliarDate[1] + auxiliarDate[2] + auxiliarDate[3])){
-		console.log("o primeiro numero é do tipo ",	typeof(currentDate.getYear()), "o segundo numero é do tipo ", typeof(auxiliarDate[0] + auxiliarDate[1] + auxiliarDate[2] + auxiliarDate[3]));
+		//console.log("o primeiro numero é do tipo ",	typeof(currentDate.getYear()), "o segundo numero é do tipo ", typeof(auxiliarDate[0] + auxiliarDate[1] + auxiliarDate[2] + auxiliarDate[3]));
 	}else{
-		console.log(currentDate.getYear());
+		//console.log(currentDate.getYear());
 	}
  }catch(err){
-	console.log(err);
+	//console.log(err);
  }
 }
 
 let bindTaskEvents=function(taskListItem,taskstatus){
-	console.log("bind list item events");
+	//console.log("bind list item events");
     //select ListItems children
 	let checkBox=taskListItem.querySelector("input[type=checkbox]");
 	let editButton=taskListItem.querySelector("button.edit");
@@ -156,21 +164,101 @@ let serialize=function(listItem){
 		    prazo: ul.querySelector("li#prazo").innerHTML.replace("Prazo: ", "")}
     return JSON.stringify(jsontxt);
 }
-
+//Request the incomplete tasks saved on the server
 let getTarefas=function() {
 	let taskRequest = new XMLHttpRequest();
 	taskRequest.open('GET', 'http://localhost:3000/tarefas.json');
 	taskRequest.send();
 	taskRequest.onload=function() {
-		console.log(taskRequest.responseText);
+		//console.log(taskRequest.responseText);
 		lista = JSON.parse(taskRequest.responseText);
 		for (var i=0; i<lista.length; ++i) {
-			console.log(lista[i]);
+			//console.log(lista[i]);
 			newLI = createNewTaskElement(lista[i]['tarefa'], lista[i]['responsavel'], lista[i]['data']);
 			incompleteTaskHolder.appendChild(newLI);
 			bindTaskEvents(newLI, taskCompleted);
 		}
 	};	
+}
+
+//Request the completed tasks saved on the server
+let getCompletedTarefas=function() {
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('GET', 'http://localhost:3000/completas.json');
+	taskRequest.send();
+	taskRequest.onload=function() {
+		//console.log(taskRequest.responseText);
+		lista = JSON.parse(taskRequest.responseText);
+		for (var i=0; i<lista.length; ++i) {
+			//console.log(lista[i]);
+			newLI = createNewTaskElement(lista[i]['tarefa'], lista[i]['responsavel'], lista[i]['data']);
+			newLI.querySelector("input[type=checkbox]").checked = "true";
+			completedTasksHolder.appendChild(newLI);
+			bindTaskEvents(newLI, taskIncomplete);
+		}
+	};	
+}
+
+let postTarefas=function(JSONlistItem){
+	
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let postTarefasCompletas=function(JSONlistItem){
+	
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('POST', 'http://localhost:3000/tarefas.json');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let postCompletar=function(JSONlistItem){
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('POST', 'http://localhost:3000/completar');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let postDescompletar=function(JSONlistItem){
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('POST', 'http://localhost:3000/descompletar');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
 }
 
 //addButton.onclick=addTask;
@@ -187,3 +275,4 @@ for (let i=0; i<completedTasksHolder.children.length;i++){
 }
 
 getTarefas();
+getCompletedTarefas();
