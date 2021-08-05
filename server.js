@@ -33,6 +33,7 @@ console.log('Servidor rodando em localhost:8081/...');
 */
 
 const fs = require('fs');
+const _ = require('lodash')
 const express = require('express')
 const path = require('path')
 const app = express()
@@ -135,7 +136,7 @@ app.post('/completar', function(request, response) {
     let incompletas = JSON.parse(fs.readFileSync('tarefas.json', 'utf8'));
     let completas = JSON.parse(fs.readFileSync('completas.json', 'utf8'));
     let index = incompletas.findIndex(function(item){
-        return item === request.body
+        return _.isEqual(item, request.body);
     });
     incompletas.splice(index, 1);
     completas.push(request.body);
@@ -147,12 +148,8 @@ app.post('/descompletar', function(request, response) {
     let incompletas = JSON.parse(fs.readFileSync('tarefas.json', 'utf8'));
     let completas = JSON.parse(fs.readFileSync('completas.json', 'utf8'));
     let index = completas.findIndex(function(item){
-        //console.log(item);
-        //console.log("------------------------------")
-        //console.log(request.body);
-        return item === request.body
+        return _.isEqual(item, request.body);
     });
-    console.log()
     completas.splice(index, 1);
     incompletas.push(request.body);
     fs.writeFileSync('completas.json', JSON.stringify(completas));
@@ -162,7 +159,7 @@ app.post('/descompletar', function(request, response) {
 app.delete('/delete-incompleta', function(request, response) {
     let incompletas = JSON.parse(fs.readFileSync('tarefas.json', 'utf8'));
     let index = incompletas.findIndex(function(item){
-        return item === request.body
+        return _.isEqual(item, request.body);
     });
     incompletas.splice(index, 1);
     fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
@@ -171,9 +168,27 @@ app.delete('/delete-incompleta', function(request, response) {
 app.delete('/delete-completa', function(request, response) {
     let completas = JSON.parse(fs.readFileSync('completas.json', 'utf8'));
     let index = completas.findIndex(function(item){
-        return item === request.body
+        return _.isEqual(item, request.body);
     });
     completas.splice(index, 1);
+    fs.writeFileSync('completas.json', JSON.stringify(completas));
+})
+
+app.patch('/patch-incompleta', function(request, response) {
+    let incompletas = JSON.parse(fs.readFileSync('tarefas.json', 'utf8'));
+    let index = incompletas.findIndex(function(item){
+        return _.isEqual(item, request.body[0]);
+    });
+    incompletas[index] = request.body[1];
+    fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
+})
+
+app.patch('/patch-completa', function(request, response) {
+    let completas = JSON.parse(fs.readFileSync('completas.json', 'utf8'));
+    let index = completas.findIndex(function(item){
+        return _.isEqual(item, request.body[0]);
+    });
+    completas[index] = request.body[1];
     fs.writeFileSync('completas.json', JSON.stringify(completas));
 })
 

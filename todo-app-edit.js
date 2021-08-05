@@ -67,14 +67,10 @@ let addTask=function() {
 //Edit an existing task.
 let editTask=function() {
     let listItem=this.parentNode;
-	let JSONlistItem = serialize(listItem);
-	/*let ulp = listItem.parentNode;
-	if (ulp === completedTasksHolder) {
-		deleteCompleta(JSONlistItem);
-	}
-	else if (ulp === incompleteTaskHolder){
-		deleteIncompleta(JSONlistItem);
-	}*/
+	let antes = serialize(listItem);
+	let depois = null;
+	let JSONItens = [];
+	let ulp=listItem.parentNode;
     let editTarefaInput=listItem.querySelector('input[id=editTarefa]');
 	let editResponsavelInput=listItem.querySelector('input[id=editResponsavel]');
 	let editPrazoInput=listItem.querySelector('input[id=editPrazo]');
@@ -95,6 +91,15 @@ let editTask=function() {
 			editResponsavelInput.type = "hidden";
 			editPrazoInput.value="";
 			editPrazoInput.type = "hidden";
+			depois = serialize(listItem);
+			JSONItens.push(JSON.parse(antes));
+			JSONItens.push(JSON.parse(depois));
+			if (ulp === completedTasksHolder) {
+				patchTarefaCompleta(JSON.stringify(JSONItens));
+			}
+			else if (ulp === incompleteTaskHolder){
+				patchTarefa(JSON.stringify(JSONItens));
+			}
 
 			this.innerText = "Editar";
 		}
@@ -110,16 +115,6 @@ let editTask=function() {
 		}
 		//toggle .editmode on the parent.
 		listItem.classList.toggle("editMode");
-		/*
-		JSONlistItem = serialize(listItem);
-		if (ulp === completedTasksHolder) {
-			postTarefasCompletas(JSONlistItem);
-		}
-		else if (ulp === incompleteTaskHolder){
-			postTarefas(JSONlistItem);
-		}*/
-		
-
 }
 //Delete task.
 let deleteTask=function(){
@@ -304,6 +299,36 @@ let deleteIncompleta=function(JSONlistItem){
 let deleteCompleta=function(JSONlistItem){
 	let taskRequest = new XMLHttpRequest();
 	taskRequest.open('DELETE', 'http://localhost:3000/delete-completa');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let patchTarefa=function(JSONlistItem){
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('PATCH', 'http://localhost:3000/patch-incompleta');
+	//taskRequest.setRequestHeader('string', 'tarefas.json');
+	//console.log(JSONlistItem);
+	//console.log(taskRequest);
+	taskRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	taskRequest.send(JSONlistItem);
+	taskRequest.onload=function(JSONlistItem) {
+		if (taskRequest.status<200 || taskRequest.status>=400){
+			console.log("deu bo")
+		}
+	}
+}
+
+let patchTarefaCompleta=function(JSONlistItem){
+	let taskRequest = new XMLHttpRequest();
+	taskRequest.open('PATCH', 'http://localhost:3000/patch-completa');
 	//taskRequest.setRequestHeader('string', 'tarefas.json');
 	//console.log(JSONlistItem);
 	//console.log(taskRequest);

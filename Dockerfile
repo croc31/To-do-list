@@ -4,7 +4,7 @@ WORKDIR /app-server
 
 RUN npm init
 
-RUN npm install express
+RUN npm install express lodash
 
 COPY . .
 
