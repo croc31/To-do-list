@@ -158,20 +158,24 @@ app.post('/descompletar', function(request, response) {
     fs.writeFileSync('completas.json', JSON.stringify(completas));
     fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
 })
-/*
-app.delete('/deletar', function(request, response) {
-    let data=fs.readFileSync('tarefas.json', 'utf8');
-    let incompletas = JSON.parse(data);
-    data = fs.readFileSync('completas.json', 'utf8');
-    let completas = JSON.parse(data);
+
+app.delete('/delete-incompleta', function(request, response) {
+    let incompletas = JSON.parse(fs.readFileSync('tarefas.json', 'utf8'));
+    let index = incompletas.findIndex(function(item){
+        return item === request.body
+    });
+    incompletas.splice(index, 1);
+    fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
+})
+
+app.delete('/delete-completa', function(request, response) {
+    let completas = JSON.parse(fs.readFileSync('completas.json', 'utf8'));
     let index = completas.findIndex(function(item){
         return item === request.body
     });
     completas.splice(index, 1);
-    incompletas.push(request.body);
     fs.writeFileSync('completas.json', JSON.stringify(completas));
-    fs.writeFileSync('tarefas.json', JSON.stringify(incompletas));
-})*/
+})
 
 app.listen(port, () => {
   console.log(`Servidor: http://localhost:${port}`);
