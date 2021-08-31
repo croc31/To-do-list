@@ -1,6 +1,7 @@
 //const { debug } = require("console");
 // by Franklyn Roth https://codepen.io/franklynroth/pen/ZYeaBd
-const host = "todolist.ufrn.br";
+
+const host = todolist.ufrn.br;
 const port = 80;
 let tarefaInput = document.getElementById("tarefa");//Add a new task.
 let prazoInput = document.getElementById("prazo");

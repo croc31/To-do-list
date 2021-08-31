@@ -32,12 +32,17 @@ http.createServer( function (request, response) {
 console.log('Servidor rodando em localhost:8081/...');
 */
 
+const config = require('./config.json')
 const fs = require('fs');
 const _ = require('lodash')
 const express = require('express')
 const path = require('path')
 const app = express()
-const port = 80
+const port = config.url.port
+const execSync = require('child_process').execSync
+
+execSync('sed -i \'s/todolist.ufrn.br/"'+config.url.hostname+'"/g\' todo-app-edit.js')
+execSync('sed -i \'s/80/'+config.url.port+'/g\' todo-app-edit.js')
 
 app.get('/', (request, response) => {
     response.sendFile(path.join(__dirname, 'ToDoApp2021-edit.html'));
@@ -49,6 +54,10 @@ app.get('/todo', function(request, response){
 
 app.get('/todo-app-edit.js', function(request, response){
     response.sendFile(path.join(__dirname, 'todo-app-edit.js'));
+})
+
+app.get('/config.json', function(request, response){
+    response.sendFile(path.join(__dirname, 'config.json'));
 })
 
 app.get('/tarefas.json', function(request, response){

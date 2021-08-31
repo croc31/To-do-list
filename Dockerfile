@@ -2,7 +2,7 @@ FROM node:16-alpine
 
 WORKDIR /app-server
 
-RUN npm install express lodash
+RUN npm i express lodash config
 
 COPY . .
 
