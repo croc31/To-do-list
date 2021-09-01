@@ -41,8 +41,10 @@ const app = express()
 const port = config.url.port
 const execSync = require('child_process').execSync
 
-execSync('sed -i \'s/todolist.ufrn.br/"'+config.url.hostname+'"/g\' todo-app-edit.js')
-execSync('sed -i \'s/80/'+config.url.port+'/g\' todo-app-edit.js')
+let frontScript = fs.readFileSync('todo-app-edit.js', {encoding:'utf8', flag:'r'});
+frontScript = frontScript.replace(/const host = todolist.ufrn.br;/g, 'const host = \'' + config.url.hostname + '\';');
+frontScript = frontScript.replace(/const port = 80;/g, 'const port = ' + config.url.port + ';');
+fs.writeFileSync('todo-app-edit.js', frontScript);
 
 app.get('/', (request, response) => {
     response.sendFile(path.join(__dirname, 'ToDoApp2021-edit.html'));
@@ -202,5 +204,5 @@ app.patch('/patch-completa', function(request, response) {
 })
 
 app.listen(port, () => {
-  console.log(`Servidor: http://localhost:${port}`);
+  console.log(`Servidor: http://${config.url.hostname}:${port}`);
 })
