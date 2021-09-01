@@ -42,8 +42,8 @@ const port = config.url.port
 const execSync = require('child_process').execSync
 
 let frontScript = fs.readFileSync('todo-app-edit.js', {encoding:'utf8', flag:'r'});
-frontScript = frontScript.replace(/const host = todolist.ufrn.br;/g, 'const host = \'' + config.url.hostname + '\';');
-frontScript = frontScript.replace(/const port = 80;/g, 'const port = ' + config.url.port + ';');
+frontScript = frontScript.replace(/.*const host =.*/g, 'const host = \'' + config.url.hostname + '\';');
+frontScript = frontScript.replace(/.*const port =.*/g, 'const port = ' + config.url.port + ';');
 fs.writeFileSync('todo-app-edit.js', frontScript);
 
 app.get('/', (request, response) => {

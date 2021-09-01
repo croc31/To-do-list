@@ -1,6 +1,6 @@
 {
 	"url": {
-		"hostname": "todolist.ufrn.br",
-		"port": 80
+		"hostname": "localhost",
+		"port": 3000
 	}
 }
