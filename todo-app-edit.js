@@ -1,8 +1,8 @@
 //const { debug } = require("console");
 // by Franklyn Roth https://codepen.io/franklynroth/pen/ZYeaBd
-
-const host = todolist.ufrn.br;
-const port = 80;
+//const bootstrap = require(bootstrap');
+const host = 'localhost';
+const port = 3000;
 let tarefaInput = document.getElementById("tarefa");//Add a new task.
 let prazoInput = document.getElementById("prazo");
 let responsavelInput = document.getElementById("responsavel");
@@ -37,10 +37,15 @@ let createNewTaskElement = function(tarefa, responsavel, prazo) {
 		editPrazoInput.id="editPrazo";
     let editButton=document.createElement("button");//edit button
 	    editButton.innerText="Editar";
-	    editButton.className="edit";	
+	    editButton.className="edit";
+		editButton.classList.add("btn");
+		editButton.classList.add("btn-primary");
+		editButton.classList.add("mx-1");	
 	let deleteButton=document.createElement("button");//delete button
 	    deleteButton.innerText="X";
 	    deleteButton.className="delete";
+		deleteButton.classList.add("btn");
+		deleteButton.classList.add("btn-primary");
 	deadLine(prazo);
 	//and appending.
 	data.appendChild(labelResponsavel);
@@ -86,8 +91,10 @@ let editTask=function() {
 		//switch to .editmode
 		//label becomes the inputs value.
 		    listItem.querySelector("b").innerHTML = editTarefaInput.value;
-			ul.querySelector("li#responsavel").innerHTML = editResponsavelInput.value;
-			ul.querySelector("li#prazo").innerHTML = editPrazoInput.value;
+			ul.querySelector("li#responsavel").innerHTML = "Responsável: ";
+			ul.querySelector("li#responsavel").innerHTML += editResponsavelInput.value;
+			ul.querySelector("li#prazo").innerHTML = "Prazo: ";
+			ul.querySelector("li#prazo").innerHTML += editPrazoInput.value;
             editTarefaInput.value="";
 			editTarefaInput.type = "hidden";
 			editResponsavelInput.value="";

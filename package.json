@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/croc31/To-do-list#readme",
   "dependencies": {
+    "bootstrap": "^5.1.0",
     "express": "^4.17.1"
   }
 }

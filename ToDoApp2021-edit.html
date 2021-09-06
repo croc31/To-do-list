@@ -3,35 +3,73 @@
   <head>
     <title>Lista de Tarefas - Edit</title>
      <meta charset="utf8"/>
+
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   </head>
   <body>
-      <h1>Lista de Tarefas</h1>
-        <div class="container">
-         <p>
-           Tarefa:
-         <input id="tarefa" type="text" placeholder="Ex: Colocar Lixo para fora" required> 
-         </p>
-         <p>
-          Responsável:
-         <input id="responsavel" type="text" placeholder="Ex: Fulano Cicrano" required> 
-        </p>
-        <p>
-          Prazo:
-         <input id="prazo" type="date" placeholder="Ex: Amanhã meio dia" required> 
-        </p>
-        <button id="adicionar">Adicionar</button>
-        <h2>A fazer</h2>
-        <ul id="incompletas">
-        
+      <header class="navbar navbar-expand flex-column flex-md-row card ">
+        <h1 class="card-header">Lista de Tarefas</h1>
+        <div class="dropright">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Adicionar 
+          </button>
+          
+          <div class="dropdown-menu">
+            <form class="px-4 py-3">
+              <div class="form-group">
+                <label for="Tarefa">Tarefa</label>
+                <input type="text" class="form-control" id="tarefa" placeholder="Ex: Colocar Lixo para fora" required>
+              </div>
+              <div class="form-group">
+                <label for="responsavel">Responsável</label>
+                <input type="text" class="form-control" id="responsavel"  placeholder="Ex: Fulano Cicrano" required>
+              </div>
+              <div class="form-group">
+                <label for="prazo">Prazo</label>
+                <input type="date" class="form-control" id="prazo"required>
+              </div>  
+              <button id="adicionar" type="button" class="btn btn-primary">Adicionar</button>
+            </form>
+            <!--
+            <p class="dropdown-header">
+              Tarefa:
+              <input id="tarefa" type="text" placeholder="Ex: Colocar Lixo para fora" required> 
+            </p>
+            <p class="dropdown-item">
+              Responsável:
+              <input id="responsavel" type="text" placeholder="Ex: Fulano Cicrano" required> 
+            </p>
+            <p class="dropdown-item">
+              Prazo:
+              <input id="prazo" type="date" placeholder="Ex: Amanhã meio dia" required> 
+            </p>
+            <div class="dropdown-item">
+              <button id="adicionar" type="button" class="btn btn-primary">Adicionar</button>
+            </div>
+          -->
+          </div>
+        </div>
+      </header>
+        <row class="row">
+        <div class="container col-sm">
+          <h2>A fazer</h2>
+          <ul id="incompletas">
+          
+          </ul>
+        </div>
+      <div class="container col-sm"> 
+        <h2>Feito</h2>
+        <ul id="completas">
+
         </ul>
-      
-      <h2>Feito</h2>
-      <ul id="completas">
-
-      </ul>
+      </div>
+      </row>
     </div>
-
+    
     <script type="text/javascript" src="todo-app-edit.js"></script>
-
+    <!--Bootstrap scripts-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 </html>
