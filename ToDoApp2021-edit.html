@@ -17,7 +17,7 @@
           <div class="dropdown-menu">
             <form class="px-4 py-3">
               <div class="form-group">
-                <label for="Tarefa">Tarefa</label>
+                <label for="tarefa">Tarefa</label>
                 <input type="text" class="form-control" id="tarefa" placeholder="Ex: Colocar Lixo para fora" required>
               </div>
               <div class="form-group">
@@ -30,41 +30,23 @@
               </div>  
               <button id="adicionar" type="button" class="btn btn-primary">Adicionar</button>
             </form>
-            <!--
-            <p class="dropdown-header">
-              Tarefa:
-              <input id="tarefa" type="text" placeholder="Ex: Colocar Lixo para fora" required> 
-            </p>
-            <p class="dropdown-item">
-              Responsável:
-              <input id="responsavel" type="text" placeholder="Ex: Fulano Cicrano" required> 
-            </p>
-            <p class="dropdown-item">
-              Prazo:
-              <input id="prazo" type="date" placeholder="Ex: Amanhã meio dia" required> 
-            </p>
-            <div class="dropdown-item">
-              <button id="adicionar" type="button" class="btn btn-primary">Adicionar</button>
-            </div>
-          -->
           </div>
         </div>
       </header>
-        <row class="row">
-        <div class="container col-sm">
-          <h2>A fazer</h2>
+      <row class="row">
+        <div class="card col-lg">
+          <h2 class="card-header">A fazer</h2>
           <ul id="incompletas">
           
           </ul>
         </div>
-      <div class="container col-sm"> 
-        <h2>Feito</h2>
+      <div class="card col-lg"> 
+        <h2 class="card-header">Feito</h2>
         <ul id="completas">
 
         </ul>
       </div>
-      </row>
-    </div>
+    </row>
     
     <script type="text/javascript" src="todo-app-edit.js"></script>
     <!--Bootstrap scripts-->

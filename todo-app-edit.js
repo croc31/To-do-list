@@ -18,14 +18,24 @@ let createNewTaskElement = function(tarefa, responsavel, prazo) {
 	let checkBox=document.createElement("input");//checkbx
     	checkBox.type="checkbox";
 		checkBox.id="taskCheckbox";
+		checkBox.classList.add("mx-2");
+	let titleName = document.createElement("label");
+		titleName.innerText = tarefa;
+		titleName.classList.add("h4");
+	let title = document.createElement("div");
+		title.id = "title";
+		title.classList.add("card-header");
+		//title.classList.add("row");
 	let data = document.createElement("ul");
-	listItem.innerHTML = tarefa.bold();
+		data.classList.add("list-group-flush");
 	let labelResponsavel=document.createElement("li");//label
 		labelResponsavel.innerText= "Responsável: "+ responsavel;
-		labelResponsavel.id = "responsavel"
+		labelResponsavel.id = "responsavel";
+		labelResponsavel.classList.add("list-group-item");
 	let labelPrazo=document.createElement("li");//label
         labelPrazo.innerText="Prazo: " + prazo;
-		labelPrazo.id = "prazo"
+		labelPrazo.id = "prazo";
+		labelPrazo.classList.add("list-group-item");
 	let editTarefaInput=document.createElement("input");//text
     	editTarefaInput.type="hidden";
 		editTarefaInput.id="editTarefa";
@@ -47,16 +57,20 @@ let createNewTaskElement = function(tarefa, responsavel, prazo) {
 		deleteButton.classList.add("btn");
 		deleteButton.classList.add("btn-primary");
 	deadLine(prazo);
+	listItem.classList.add("card");
+	listItem.classList.add("m-2");
 	//and appending.
+	title.appendChild(titleName);	
+	title.appendChild(checkBox);
+	listItem.appendChild(title);
 	data.appendChild(labelResponsavel);
-	data.appendChild(labelPrazo)
-	listItem.appendChild(checkBox);
+	data.appendChild(labelPrazo);
+	data.appendChild(editTarefaInput);
+	data.appendChild(editResponsavelInput);
+	data.appendChild(editPrazoInput);
+	data.appendChild(editButton);
+	data.appendChild(deleteButton);
 	listItem.appendChild(data);
-	listItem.appendChild(editTarefaInput);
-	listItem.appendChild(editResponsavelInput);
-	listItem.appendChild(editPrazoInput);
-	listItem.appendChild(editButton);
-	listItem.appendChild(deleteButton);
 	return listItem;
 }
 
@@ -74,7 +88,7 @@ let addTask=function() {
 
 //Edit an existing task.
 let editTask=function() {
-    let listItem=this.parentNode;
+    let listItem=this.parentNode.parentNode;
 	let antes = serialize(listItem);
 	let depois = null;
 	let JSONItens = [];
@@ -90,7 +104,7 @@ let editTask=function() {
 		if(containsClass){
 		//switch to .editmode
 		//label becomes the inputs value.
-		    listItem.querySelector("b").innerHTML = editTarefaInput.value;
+		    listItem.querySelector("div#title").querySelector("label").innerText = editTarefaInput.value;
 			ul.querySelector("li#responsavel").innerHTML = "Responsável: ";
 			ul.querySelector("li#responsavel").innerHTML += editResponsavelInput.value;
 			ul.querySelector("li#prazo").innerHTML = "Prazo: ";
@@ -115,7 +129,7 @@ let editTask=function() {
 		}
         else {
 			editTarefaInput.type = "text";
-			editTarefaInput.value = listItem.querySelector("b").innerHTML;
+			editTarefaInput.value = listItem.querySelector("div#title").querySelector("label").innerText;
 			editResponsavelInput.type = "text";
 			editResponsavelInput.value = ul.querySelector("li#responsavel").innerHTML.replace("Responsável: ", "");
 			editPrazoInput.type = "date";
@@ -128,7 +142,7 @@ let editTask=function() {
 }
 //Delete task.
 let deleteTask=function(){
-		let listItem=this.parentNode;
+		let listItem=this.parentNode.parentNode;
 		let ul=listItem.parentNode;
 		let JSONlistItem = serialize(listItem);
 		if (ul === completedTasksHolder) {
@@ -143,7 +157,7 @@ let deleteTask=function(){
 //Mark task completed
 let taskCompleted=function(){
 	//Append the task list item to the #completed-tasks
-	let listItem=this.parentNode;
+	let listItem=this.parentNode.parentNode;
 	completedTasksHolder.appendChild(listItem);
 	let JSONlistItem = serialize(listItem);
 	postCompletar(JSONlistItem);
@@ -152,7 +166,7 @@ let taskCompleted=function(){
 let taskIncomplete=function(){
     //Mark task as incomplete, when the checkbox is unchecked
     //Append the task list item to the #incomplete-tasks.
-    let listItem=this.parentNode;
+    let listItem=this.parentNode.parentNode;
 	incompleteTaskHolder.appendChild(listItem);
 	let JSONlistItem = serialize(listItem);
 	postDescompletar(JSONlistItem);
@@ -189,7 +203,7 @@ let bindTaskEvents=function(taskListItem,taskstatus){
 
 let serialize=function(listItem){
     let ul=listItem.querySelector("ul");
-	jsontxt = {tarefa: listItem.querySelector("b").innerHTML,
+	jsontxt = {tarefa: listItem.querySelector("div#title").querySelector("label").innerText,
 	        responsavel: ul.querySelector("li#responsavel").innerHTML.replace("Responsável: ", ""),
 		    prazo: ul.querySelector("li#prazo").innerHTML.replace("Prazo: ", "")}
     return JSON.stringify(jsontxt);
