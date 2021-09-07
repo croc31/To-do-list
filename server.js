@@ -39,7 +39,6 @@ const express = require('express')
 const path = require('path')
 const app = express()
 const port = config.url.port
-const execSync = require('child_process').execSync
 
 let frontScript = fs.readFileSync('todo-app-edit.js', {encoding:'utf8', flag:'r'});
 frontScript = frontScript.replace(/.*const host =.*/g, 'const host = \'' + config.url.hostname + '\';');
