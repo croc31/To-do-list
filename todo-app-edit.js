@@ -75,18 +75,13 @@ let createNewTaskElement = function(tarefa, responsavel, prazo) {
 }
 
 let addTask=function() {
-	console.log("Add Task...");
-	//Create a new list item with the text from the #new-task:
 	let listItem = createNewTaskElement(tarefaInput.value, responsavelInput.value, prazoInput.value);
 	let JSONlistItem = serialize(listItem);
-	//Append listItem to incompleteTaskHolder
 	postTarefas(JSONlistItem);
 	incompleteTaskHolder.appendChild(listItem);
 	bindTaskEvents(listItem, taskCompleted);
-	//taskInput.placeholder="digite aqui";
 }
 
-//Edit an existing task.
 let editTask=function() {
     let listItem=this.parentNode.parentNode;
 	let antes = serialize(listItem);
@@ -99,11 +94,8 @@ let editTask=function() {
     let ul=listItem.querySelector("ul"); 
 	console.log(listItem);
     let containsClass=listItem.classList.contains("editMode");
-		//If class of the parent is .editmode
 	
 		if(containsClass){
-		//switch to .editmode
-		//label becomes the inputs value.
 		    listItem.querySelector("div#title").querySelector("label").innerText = editTarefaInput.value;
 			ul.querySelector("li#responsavel").innerHTML = "Responsável: ";
 			ul.querySelector("li#responsavel").innerHTML += editResponsavelInput.value;
@@ -137,7 +129,6 @@ let editTask=function() {
 
 			this.innerText = "Salvar";
 		}
-		//toggle .editmode on the parent.
 		listItem.classList.toggle("editMode");
 }
 //Delete task.
@@ -164,8 +155,6 @@ let taskCompleted=function(){
     bindTaskEvents(listItem, taskIncomplete);
 }
 let taskIncomplete=function(){
-    //Mark task as incomplete, when the checkbox is unchecked
-    //Append the task list item to the #incomplete-tasks.
     let listItem=this.parentNode.parentNode;
 	incompleteTaskHolder.appendChild(listItem);
 	let JSONlistItem = serialize(listItem);
